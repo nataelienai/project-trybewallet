@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 class Login extends React.Component {
   constructor(props) {
@@ -20,7 +21,9 @@ class Login extends React.Component {
 
   handleSubmit(event) {
     event.preventDefault();
-    console.log('Submit!');
+    const { history } = this.props;
+    history.push('/carteira');
+    console.log(history);
   }
 
   render() {
@@ -46,5 +49,9 @@ class Login extends React.Component {
     );
   }
 }
+
+Login.propTypes = {
+  history: PropTypes.shape({ push: PropTypes.func }).isRequired,
+};
 
 export default Login;
