@@ -23,9 +23,9 @@ class Login extends React.Component {
     const { email, password } = this.state;
 
     const emailValidator = new RegExp([
-      /^([!#-'*+/-9=?a-zA-Z^-~-]+(\.[!#-'*+/-9=?a-zA-Z^-~-]+)*)/,
-      /@([!#-'*+/-9=?a-zA-Z^-~-]+(\.[!#-'*+/-9=?a-zA-Z^-~-]+)*)/,
-      /\.[a-zA-Z]+[a-zA-Z0-9-]*[a-zA-Z0-9]+$/,
+      /^([!#-'*+/-9=?a-zA-Z^-~-]+(\.[!#-'*+/-9=?a-zA-Z^-~-]+)*)/, // local part
+      /@([!#-'*+/-9=?a-zA-Z^-~-]+(\.[!#-'*+/-9=?a-zA-Z^-~-]+)*)/, // second-level domain
+      /\.[a-zA-Z]+[a-zA-Z0-9-]*[a-zA-Z0-9]+$/, // top-level domain
     ].map((regex) => regex.source).join(''));
 
     if (password.length >= MIN_PASSWORD_LENGTH && emailValidator.test(email)) {
