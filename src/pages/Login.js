@@ -3,22 +3,40 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { login } from '../redux/actions';
 
+const MIN_PASSWORD_LENGTH = 6;
+
 class Login extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       email: '',
       password: '',
+      isFormValid: false,
     };
 
     this.handleInputChange = this.handleInputChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.validateForm = this.validateForm.bind(this);
+  }
+
+  validateForm() {
+    const { email, password } = this.state;
+
+    const emailValidator = new RegExp([
+      /^([!#-'*+/-9=?a-zA-Z^-~-]+(\.[!#-'*+/-9=?a-zA-Z^-~-]+)*)/,
+      /@([!#-'*+/-9=?a-zA-Z^-~-]+(\.[!#-'*+/-9=?a-zA-Z^-~-]+)*)/,
+      /\.[a-zA-Z]+[a-zA-Z0-9-]*[a-zA-Z0-9]+$/,
+    ].map((regex) => regex.source).join(''));
+
+    if (password.length >= MIN_PASSWORD_LENGTH && emailValidator.test(email)) {
+      this.setState({ isFormValid: true });
+    } else {
+      this.setState({ isFormValid: false });
+    }
   }
 
   handleInputChange({ target: { name, value } }) {
-    this.setState({
-      [name]: value,
-    });
+    this.setState({ [name]: value }, this.validateForm);
   }
 
   handleSubmit(event) {
@@ -31,7 +49,7 @@ class Login extends React.Component {
   }
 
   render() {
-    const { email, password } = this.state;
+    const { email, password, isFormValid } = this.state;
     return (
       <form onSubmit={ this.handleSubmit }>
         <input
@@ -48,7 +66,7 @@ class Login extends React.Component {
           data-testid="password-input"
           onChange={ this.handleInputChange }
         />
-        <button type="submit">Entrar</button>
+        <button type="submit" disabled={ !isFormValid }>Entrar</button>
       </form>
     );
   }
