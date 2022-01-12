@@ -155,6 +155,24 @@ class Wallet extends React.Component {
               <th>Editar/Excluir</th>
             </tr>
           </thead>
+          <tbody>
+            { expenses.map((expense) => (
+              <tr key={ expense.id }>
+                <td>{expense.description}</td>
+                <td>{expense.tag}</td>
+                <td>{expense.method}</td>
+                <td>{expense.value}</td>
+                <td>{expense.exchangeRates[expense.currency].name.split('/')[0]}</td>
+                <td>{Number(expense.exchangeRates[expense.currency].ask).toFixed(2)}</td>
+                <td>
+                  {(expense.value * expense.exchangeRates[expense.currency].ask)
+                    .toFixed(2)}
+                </td>
+                <td>Real</td>
+                <td>&nbsp;</td>
+              </tr>
+            )) }
+          </tbody>
         </table>
       </div>
     );
