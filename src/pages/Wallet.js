@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { deleteExpense, editExpense, saveExpense, fetchCurrencies } from '../actions';
+import Header from '../components/Header';
 
 const INITIAL_STATE = {
   expense: {
@@ -62,32 +63,19 @@ class Wallet extends React.Component {
     this.setState(initialState);
   }
 
-  sumExpenses(expenses) {
-    return expenses.reduce((total, { value, exchangeRates, currency }) => (
-      total + Number(value) * Number(exchangeRates[currency].ask)
-    ), 0);
-  }
-
   activateEditMode(expense) {
     this.setState({ expense, editMode: true });
   }
 
   render() {
-    const { email, expenses, currencies, dispatch } = this.props;
+    const { expenses, currencies, dispatch } = this.props;
     const {
       expense: { value, description, currency, method, tag },
       editMode,
     } = this.state;
     return (
       <div>
-        <header>
-          <span data-testid="email-field">{email}</span>
-          <span data-testid="total-field">
-            Despesa Total:
-            { this.sumExpenses(expenses) }
-            <span data-testid="header-currency-field">BRL</span>
-          </span>
-        </header>
+        <Header />
         <form onSubmit={ this.handleSubmit }>
           <label htmlFor="value-input">
             Valor:
@@ -220,7 +208,6 @@ class Wallet extends React.Component {
 
 Wallet.propTypes = {
   dispatch: PropTypes.func.isRequired,
-  email: PropTypes.string.isRequired,
   expenses: PropTypes.arrayOf(PropTypes.shape({
     id: PropTypes.number,
     value: PropTypes.string,
@@ -237,7 +224,6 @@ Wallet.propTypes = {
 };
 
 const mapStateToProps = (state) => ({
-  email: state.user.email,
   expenses: state.wallet.expenses,
   currencies: state.wallet.currencies,
 });
