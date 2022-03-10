@@ -1,6 +1,7 @@
 export const LOGIN = 'LOGIN';
 export const ADD_EXPENSE = 'ADD_EXPENSE';
-export const EDIT_EXPENSE = 'EDIT_EXPENSE';
+export const START_EDITING_EXPENSE = 'START_EDITING_EXPENSE';
+export const FINISH_EDITING_EXPENSE = 'FINISH_EDITING_EXPENSE';
 export const DELETE_EXPENSE = 'DELETE_EXPENSE';
 export const GET_CURRENCIES = 'GET_CURRENCIES';
 
@@ -14,9 +15,14 @@ export const addExpense = (expense) => ({
   payload: expense,
 });
 
-export const editExpense = (expense) => ({
-  type: EDIT_EXPENSE,
+export const startEditingExpense = (expense) => ({
+  type: START_EDITING_EXPENSE,
   payload: expense,
+});
+
+export const finishEditingExpense = (editedExpense) => ({
+  type: FINISH_EDITING_EXPENSE,
+  payload: editedExpense,
 });
 
 export const deleteExpense = (expenseId) => ({
